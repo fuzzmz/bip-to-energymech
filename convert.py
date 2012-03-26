@@ -1,5 +1,6 @@
 import os
 import glob
+import re
 from ConfigParser import SafeConfigParser
 
 def get_channel_name(log):
@@ -36,7 +37,9 @@ def parse_log(log, output, channel_name, year, month, day):
 	new_file = open(output + channel_name + '_' + year + month + day + '.log','w')
 	old_file = open(log)
 	for line in old_file:
-		new_file.write(line[11:])
+		new_line = line[11:]
+		new_line = new_line.replace("< ", "<", 1)
+		new_file.write(new_line)
 	new_file.close()
 	old_file.close()
 
