@@ -25,14 +25,14 @@ def find_date(log):
 	log_year  = log_text[6:10]
 	
 	#tests
-	print 'Day is ' + log_day
+	print 'Day is '   + log_day
 	print 'Month is ' + log_month
-	print 'Year is ' + log_year
+	print 'Year is '  + log_year
 
 	return log_day, log_month, log_year
 
-def write_log(day, month, year, final_log):
-	to_write = open(output + name + '_' + year + month + day + '.log', 'w')
+def write_log(output, channel_name, year, month, day, final_log):
+	to_write = open(output + channel_name + '_' + year + month + day + '.log', 'w')
 	to_write.write(final_log)
 	to_write.close()
 
@@ -44,5 +44,4 @@ log              = parser.get('directories', 'input')
 output           = parser.get('directories', 'output')
 
 day, month, year = find_date(log)
-
-get_log_name(log)
+channel_name     = get_log_name(log)
