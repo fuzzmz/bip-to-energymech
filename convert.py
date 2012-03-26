@@ -32,10 +32,13 @@ def find_date(log):
 
 	return log_day, log_month, log_year
 
-def write_log(output, channel_name, year, month, day, final_log):
-	to_write = open(output + channel_name + '_' + year + month + day + '.log', 'w')
-	to_write.write(final_log)
-	to_write.close()
+def parse_log(log, output, channel_name, year, month, day):
+	new_file = open(output + channel_name + '_' + year + month + day + '.log','w')
+	old_file = open(log)
+	for line in old_file:
+		new_file.write(line[11:])
+	new_file.close()
+	old_file.close()
 
 # read config file
 parser           = SafeConfigParser()
@@ -50,3 +53,5 @@ for infile in glob.glob(os.path.join(log, '*.log')):
 
 	day, month, year = find_date(infile)
 	channel_name     = get_channel_name(infile)
+	
+	parse_log(infile, output, channel_name, year, month, day)
