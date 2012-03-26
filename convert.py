@@ -2,7 +2,7 @@ import os
 import glob
 from ConfigParser import SafeConfigParser
 
-def get_log_name(log):
+def get_channel_name(log):
 	logs                    = str(log)
 	fileName, fileExtension = os.path.splitext(logs) # get file name and extension
 	name_start              = fileName.find('#')
@@ -10,8 +10,8 @@ def get_log_name(log):
 	name                    = fileName[name_start:name_end]
 	
 	#tests
-	print fileName
-	print name
+	print 'Log file name is ' + fileName
+	print 'Channel name is '  + name
 
 	return name
 
@@ -46,7 +46,7 @@ output           = parser.get('directories', 'output')
 
 for infile in glob.glob(os.path.join(log, '*.log')):
 	#tests
-	print "current file is: " + infile
+	print "Current file is: " + infile
 
 	day, month, year = find_date(infile)
-	channel_name     = get_log_name(infile)
+	channel_name     = get_channel_name(infile)
