@@ -4,9 +4,9 @@ from ConfigParser import SafeConfigParser
 def get_log_name(log):
 	logs                    = str(log)
 	fileName, fileExtension = os.path.splitext(logs) # get file name and extension
-	name_start = fileName.find('#')
-	name_end = fileName.find('.', name_start)
-	name = fileName[name_start:name_end]
+	name_start              = fileName.find('#')
+	name_end                = fileName.find('.', name_start)
+	name                    = fileName[name_start:name_end]
 	
 	#tests
 	print fileName
@@ -31,9 +31,9 @@ def find_date(log):
 
 	return log_day, log_month, log_year
 
-def write_log(day, month, year):
-	to_write = open(output + logs + '.html', 'w')
-	to_write.write(log_html)
+def write_log(day, month, year, final_log):
+	to_write = open(output + name + '_' + year + month + day + '.log', 'w')
+	to_write.write(final_log)
 	to_write.close()
 
 # read config file
