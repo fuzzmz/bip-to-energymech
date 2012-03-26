@@ -1,4 +1,5 @@
 import os
+import glob
 from ConfigParser import SafeConfigParser
 
 def get_log_name(log):
@@ -43,5 +44,9 @@ parser.read('setup.cfg')
 log              = parser.get('directories', 'input')
 output           = parser.get('directories', 'output')
 
-day, month, year = find_date(log)
-channel_name     = get_log_name(log)
+for infile in glob.glob(os.path.join(log, '*.log')):
+	#tests
+	print "current file is: " + infile
+
+	day, month, year = find_date(infile)
+	channel_name     = get_log_name(infile)
