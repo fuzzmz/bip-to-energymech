@@ -15,15 +15,15 @@ def get_log_name(log):
 	return name
 
 def find_date(log):
-	myfile = open(log)
+	myfile    = open(log)
 	myfile.seek(0)
-	log_text = myfile.read()
+	log_text  = myfile.read()
 	myfile.close()
-
-	log_day = log_text[:2]
+	
+	log_day   = log_text[:2]
 	log_month = log_text[3:5]
-	log_year = log_text[6:10]
-
+	log_year  = log_text[6:10]
+	
 	#tests
 	print 'Day is ' + log_day
 	print 'Month is ' + log_month
@@ -37,10 +37,11 @@ def write_log(day, month, year, final_log):
 	to_write.close()
 
 # read config file
-parser = SafeConfigParser()
+parser           = SafeConfigParser()
 parser.read('setup.cfg')
-log    = parser.get('directories', 'input')
-output = parser.get('directories', 'output')
+
+log              = parser.get('directories', 'input')
+output           = parser.get('directories', 'output')
 
 day, month, year = find_date(log)
 
