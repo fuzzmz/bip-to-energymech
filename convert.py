@@ -97,9 +97,20 @@ def parse_log(log, output, channel_name, year, month, day):
                 new_line = 'Disconnected from IRC\n'
             elif new_line.find('Connected to server') != -1:
                 new_line = 'Connected to IRC\n'
-            elif new_line.find('%^& Topic for'):
+            elif new_line.find('kicked') != -1:
+                new_line         = new_line.replace('%^&', '***')
+                new_line         = new_line.replace('had been', 'was')
+                start_mask       = new_line.find('!')
+                end_mask         = new_line.find(' ', start_mask)
+                start_ban_reason = new_line.find('[', start_mask)
+                end_ban_reason   = new_line.find(']', start_mask)
+                ban_reason       = new_line[start_ban_reason:end_ban_reason]
+                new_line         = new_line[:start_mask]
+                ban_reason       = ban_reason.replace('[', '(')
+                new_line         = new_line + ' ' + ban_reason + ') ' + channel_name +'\n'
+            elif new_line.find('Topic for'):
                 new_line = ''
-            elif new_line.find('%^& Topic set by'):
+            elif new_line.find('Topic set by'):
                 new_line = ''
         new_file.write(new_line)
     new_file.close()
