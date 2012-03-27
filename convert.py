@@ -3,9 +3,10 @@ import glob
 import re
 from ConfigParser import SafeConfigParser
 
-talk_mask = re.compile('\!.*?\:')
+talk_mask    = re.compile('\!.*?\:')
 connect_mask = re.compile('\!.*?\has')
-quit_info = re.compile('\quit.*?\]')
+quit_info    = re.compile('\quit.*?\]')
+time_mask    = re.compile('([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)')
 
 def get_channel_name(log):
 	logs                    = str(log)
@@ -42,6 +43,8 @@ def parse_log(log, output, channel_name, year, month, day):
 	old_file = open(log)
 	for line in old_file:
 		new_line = line[11:]
+		time     = re.search(time_mask, new_line)
+		new_line = re.sub(time_mask, '[' + time.group(0) + ']', new_line)
 		new_line = new_line.replace("< ", "<", 1)
 		new_line = new_line.replace("-!-", "%^&")
 		if new_line.find('<') != -1:
@@ -60,7 +63,7 @@ def parse_log(log, output, channel_name, year, month, day):
 				m        = re.search(connect_mask, new_line)
 				mask     = ' (' + m.group(0)[1:-4] + ')'
 				new_line = re.sub(connect_mask, mask, new_line)
-				end = new_line.find('joined')
+				end      = new_line.find('joined')
 				new_line = new_line[:end-1] + '\n'
 		new_file.write(new_line)
 	new_file.close()
