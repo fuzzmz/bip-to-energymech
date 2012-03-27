@@ -83,6 +83,17 @@ def parse_log(log, output, channel_name, year, month, day):
             #TODO write case for topic information and owner-user disconnect/connect
             elif new_line.find('is now known as') != -1:
                 new_line = new_line.replace("%^&", "***")
+            elif new_line.find('changed topic') != -1:
+                start_mask  = new_line.find('!')
+                end_mask    = new_line.find(' ', start_mask)
+                mask        = new_line[start_mask:end_mask]
+                new_line    = new_line.replace(mask, '')
+                new_line    = new_line.replace('%^&', '***')
+                start_topic = new_line.find('to:')
+                topic       = "'" + new_line[start_topic+4:-2] + "'"
+                new_line    = new_line[:start_mask]
+                new_line    = new_line + ' changes topic to ' + topic + '\n'
+                
         new_file.write(new_line)
     new_file.close()
     old_file.close()
