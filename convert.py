@@ -4,6 +4,8 @@ import re
 from ConfigParser import SafeConfigParser
 
 talk_mask = re.compile('\!.*?\:')
+connect_mask = re.compile('\!.*?\has')
+quit_info = re.compile('\quit.*?\]')
 
 def get_channel_name(log):
 	logs                    = str(log)
@@ -42,7 +44,24 @@ def parse_log(log, output, channel_name, year, month, day):
 		new_line = line[11:]
 		new_line = new_line.replace("< ", "<", 1)
 		new_line = new_line.replace("-!-", "%^&")
-		new_line = re.sub(talk_mask, '>', new_line)
+		if new_line.find('<') != -1:
+			new_line = re.sub(talk_mask, '>', new_line)
+		elif new_line.find('%^&') != -1:
+			if new_line.find('quit') != -1:
+				new_line     = new_line.replace("%^&", "*** Quits:")
+				m            = re.search(connect_mask, new_line)
+				mask         = ' (' + m.group(0)[1:-4] + ')'
+				new_line     = re.sub(connect_mask, mask, new_line)
+				q            = re.search(quit_info, new_line)
+				quit_message = '(' + q.group(0)[6:-1] +')'
+				new_line     = re.sub(quit_info, quit_message, new_line)
+			elif new_line.find('join') != -1:
+				new_line = new_line.replace("%^&", "*** Joins:")
+				m        = re.search(connect_mask, new_line)
+				mask     = ' (' + m.group(0)[1:-4] + ')'
+				new_line = re.sub(connect_mask, mask, new_line)
+				end = new_line.find('joined')
+				new_line = new_line[:end-1] + '\n'
 		new_file.write(new_line)
 	new_file.close()
 	old_file.close()
