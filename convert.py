@@ -80,7 +80,9 @@ def parse_log(log, output, channel_name, year, month, day):
                 end_nick   = new_line[10:].find(']') + 10
                 nick       = new_line[start_nick:end_nick]
                 new_line   = new_line[:11] + "*** " + by + " sets mode: " + mode + nick + "\n"
-            #TODO write case for topic information and owner-user disconnect/connect 
+            #TODO write case for topic information and owner-user disconnect/connect
+            elif new_line.find('is now known as') != -1:
+                new_line = new_line.replace("%^&", "***")
         new_file.write(new_line)
     new_file.close()
     old_file.close()
