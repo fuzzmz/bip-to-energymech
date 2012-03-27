@@ -3,6 +3,8 @@ import glob
 import re
 from ConfigParser import SafeConfigParser
 
+talk_mask = re.compile('\!.*?\:')
+
 def get_channel_name(log):
 	logs                    = str(log)
 	fileName, fileExtension = os.path.splitext(logs) # get file name and extension
@@ -39,6 +41,8 @@ def parse_log(log, output, channel_name, year, month, day):
 	for line in old_file:
 		new_line = line[11:]
 		new_line = new_line.replace("< ", "<", 1)
+		new_line = new_line.replace("-!-", "%^&")
+		new_line = re.sub(talk_mask, '>', new_line)
 		new_file.write(new_line)
 	new_file.close()
 	old_file.close()
