@@ -29,3 +29,8 @@ How to use
 </table>
 
 - Run convert.py
+
+Release notes
+-------------
+
+Right now version 1.0 doesn't know how to parse bans. If you happen to have a bip IRC log containing a ban and unband please let me know so I can update the script.
