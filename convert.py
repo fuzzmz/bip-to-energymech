@@ -80,7 +80,6 @@ def parse_log(log, output, channel_name, year, month, day):
                 end_nick   = new_line[10:].find(']') + 10
                 nick       = new_line[start_nick:end_nick]
                 new_line   = new_line[:11] + "*** " + by + " sets mode: " + mode + nick + "\n"
-            #TODO write case for topic information and owner-user disconnect/connect
             elif new_line.find('is now known as') != -1:
                 new_line = new_line.replace("%^&", "***")
             elif new_line.find('changed topic') != -1:
@@ -117,7 +116,6 @@ def parse_log(log, output, channel_name, year, month, day):
     old_file.close()
 
 
-# read config file
 parser           = SafeConfigParser()
 parser.read('setup.cfg')
 
