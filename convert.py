@@ -7,6 +7,7 @@ from ConfigParser import SafeConfigParser
 talk_mask    = re.compile('\!.*?\:')
 connect_mask = re.compile('\!.*?\has')
 quit_info    = re.compile('\quit.*?\]')
+find_nick    = re.compile('\<* .*?\!')
 time_mask    = re.compile('([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)')
 
 
@@ -50,7 +51,17 @@ def parse_log(log, output, channel_name, year, month, day):
         new_line = new_line.replace("< ", "<", 1)
         new_line = new_line.replace("-!-", "%^&")
         if new_line.find('<') != -1:
-            new_line = re.sub(talk_mask, '>', new_line)
+            if new_line.find('<*') != -1:
+                nick_find          = re.search(find_nick, new_line)
+                nick               = nick_find.group(0)
+                nick               = nick[2:-1]
+                mask               = new_line.find('!')
+                mask_message_start = new_line[mask:]
+                message_find       = mask_message_start.find(' ')
+                message            = mask_message_start[message_find+1:]
+                new_line           = new_line[:11] + nick + " " + message
+            else:
+                new_line = re.sub(talk_mask, '>', new_line)
         elif new_line.find('%^&') != -1:
             if new_line.find('quit') != -1:
                 new_line     = new_line.replace("%^&", "*** Quits:")
@@ -78,6 +89,7 @@ def parse_log(log, output, channel_name, year, month, day):
                 end_nick   = new_line[10:].find(']') + 10
                 nick       = new_line[start_nick:end_nick]
                 new_line   = new_line[:11] + "*** " + by + " sets mode: " + mode + nick + "\n"
+            #TODO write case for topic information and owner-user disconnect/connect 
         new_file.write(new_line)
     new_file.close()
     old_file.close()
