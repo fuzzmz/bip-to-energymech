@@ -94,7 +94,9 @@ def parse_log(log, output, channel_name, year, month, day):
                 new_line    = new_line[:start_mask]
                 new_line    = new_line + ' changes topic to ' + topic + '\n'
             elif new_line.find('Disconnected from server') != -1:
-                new_line = 'Disconnected from IRC'
+                new_line = 'Disconnected from IRC\n'
+            elif new_line.find('Connected to server') != -1:
+                new_line = 'Connected to IRC\n'
         new_file.write(new_line)
     new_file.close()
     old_file.close()
