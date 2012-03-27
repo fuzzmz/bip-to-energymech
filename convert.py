@@ -17,10 +17,6 @@ def get_channel_name(log):
     name_start              = fileName.find('#')
     name_end                = fileName.find('.', name_start)
     name                    = fileName[name_start:name_end]
-    
-    #tests
-    # print 'Log file name is ' + fileName
-    # print 'Channel name is '  + name
 
     return name
 
@@ -33,11 +29,6 @@ def find_date(log):
     log_day   = log_text[:2]
     log_month = log_text[3:5]
     log_year  = log_text[6:10]
-    
-    #tests
-    # print 'Day is '   + log_day
-    # print 'Month is ' + log_month
-    # print 'Year is '  + log_year
 
     return log_day, log_month, log_year
 
@@ -103,9 +94,6 @@ log              = parser.get('directories', 'input')
 output           = parser.get('directories', 'output')
 
 for infile in glob.glob(os.path.join(log, '*.log')):
-    #tests
-    # print "Current file is: " + infile
-
     day, month, year = find_date(infile)
     channel_name     = get_channel_name(infile)
     
