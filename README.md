@@ -33,6 +33,8 @@ How to use
 Release notes
 -------------
 
-1. Version 1.1 now supports bans and unbans.
+1. *Version 1.2* searches for logs recursively; you can now have subfolders in the input folder. 
 
-2. Version 1.0 doesn't know how to parse bans. If you happen to have a bip IRC log containing a ban and unband please let me know so I can update the script.
+2. *Version 1.1* now supports bans and unbans.
+
+3. *Version 1.0* doesn't know how to parse bans. If you happen to have a bip IRC log containing a ban and unband please let me know so I can update the script.
