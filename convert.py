@@ -1,6 +1,6 @@
 import os
-import glob
 import re
+import fnmatch
 from ConfigParser import SafeConfigParser
 
 
@@ -122,7 +122,12 @@ parser.read('setup.cfg')
 log              = parser.get('directories', 'input')
 output           = parser.get('directories', 'output')
 
-for infile in glob.glob(os.path.join(log, '*.log')):
+matches = []
+for root, dirnames, filenames in os.walk(log):
+    for filename in fnmatch.filter(filenames, '*.log'):
+        matches.append(os.path.join(root, filename))
+
+for infile in matches:
     day, month, year = find_date(infile)
     channel_name     = get_channel_name(infile)
     
